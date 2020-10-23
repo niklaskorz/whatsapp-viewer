@@ -15,3 +15,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Legal
 
 This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WhatsApp or any of its affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.
+
+Favicon by [Roundicons](https://www.iconfinder.com/icons/2560342/media_message_network_social_icon)
