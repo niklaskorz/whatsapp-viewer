@@ -1,13 +1,13 @@
-import { Field, Int, ObjectType } from 'type-graphql';
-import { Column, Entity, Index, PrimaryColumn, } from 'typeorm';
+import { Field, Int, ObjectType } from "type-graphql";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @ObjectType({
-  description: 'A user is a user, not much left to say here',
+  description: "A user is a user, not much left to say here",
 })
 @Entity({ name: "wa_contacts" })
 export class User {
-  @Field(type => Int)
-  @PrimaryColumn("integer", {name: "_id"})
+  @Field(() => Int)
+  @PrimaryColumn("integer", { name: "_id" })
   id: number;
 
   @Field()
@@ -19,10 +19,10 @@ export class User {
   status: string;
 
   @Field({ nullable: true })
-  @Column("text", {name: "display_name"})
+  @Column("text", { name: "display_name" })
   displayName: string;
 
   @Field({ nullable: true })
-  @Column("text", {name: "wa_name"})
+  @Column("text", { name: "wa_name" })
   name: string;
 }

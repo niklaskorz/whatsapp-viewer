@@ -1,6 +1,6 @@
-import * as colors from '../../colors';
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import * as colors from "../../colors";
 
 const Section = styled.section`
   background: ${colors.darkPrimary};
@@ -31,7 +31,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function SideBar({ title, children }: Props) {
+export default function SideBar({ title, children }: Props): JSX.Element {
   return (
     <Section>
       <Header>
@@ -39,5 +39,5 @@ export default function SideBar({ title, children }: Props) {
       </Header>
       {children}
     </Section>
-  )
+  );
 }

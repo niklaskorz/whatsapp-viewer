@@ -1,9 +1,12 @@
-import gql from 'graphql-tag';
-import Linkify from 'linkifyjs/react';
-import React, { useCallback, useEffect, useRef } from 'react';
-import Head from 'next/head'
-import ChatError from '../../molecules/ChatError';
-import Loading from '../../molecules/Loading';
+import gql from "graphql-tag";
+import Linkify from "linkifyjs/react";
+import React, { useCallback, useEffect, useRef } from "react";
+import Head from "next/head";
+import { useQuery } from "@apollo/client";
+import ChatError from "../../molecules/ChatError";
+import Loading from "../../molecules/Loading";
+import ChatInfo from "../../molecules/ChatInfo";
+import Media, { MediaType } from "../../molecules/Media";
 import {
   Header,
   Message,
@@ -18,10 +21,7 @@ import {
   MessageWrapper,
   NewMessageContainer,
   Section,
-} from './styled';
-import { useQuery } from '@apollo/client';
-import ChatInfo from '../../molecules/ChatInfo';
-import Media, { MediaType } from '../../molecules/Media';
+} from "./styled";
 
 interface User {
   id: number;
@@ -39,7 +39,7 @@ interface Message {
   mediaType: MediaType;
   mediaMimeType?: string;
   mediaHash: string;
-  media?: { id: number; filePath: string; }
+  media?: { id: number; filePath: string };
 }
 
 interface ChatData {
@@ -112,42 +112,41 @@ interface QueryVariables {
   chatId: number;
 }
 
-export default function Chat(props: Props) {
+export default function Chat(props: Props): JSX.Element {
   const messageContainer = useRef<HTMLDivElement>(null);
   const stickToBottom = useRef(true);
 
-  const { data, error, loading } = useQuery<Response, QueryVariables>(ChatQuery, {
-    variables: {
-      chatId: props.chatId,
+  const { data, error, loading } = useQuery<Response, QueryVariables>(
+    ChatQuery,
+    {
+      variables: {
+        chatId: props.chatId,
+      },
     }
-  });
+  );
 
   useEffect(() => {
     stickToBottom.current = true;
     if (messageContainer.current) {
       messageContainer.current.scrollTop = 0;
     }
-  }, [props.chatId])
+  }, [props.chatId]);
   useEffect(() => {
     if (stickToBottom.current && messageContainer.current) {
       // messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
     }
-  }, [data])
+  }, [data]);
 
-  const onMessagesScroll = useCallback<React.UIEventHandler<HTMLDivElement>>(e => {
-    const target = e.currentTarget;
-    const height = target.getBoundingClientRect().height;
-    const scrollBottom = target.scrollTop + height;
+  const onMessagesScroll = useCallback<React.UIEventHandler<HTMLDivElement>>(
+    (e) => {
+      const target = e.currentTarget;
+      const height = target.getBoundingClientRect().height;
+      const scrollBottom = target.scrollTop + height;
 
-    stickToBottom.current = target.scrollHeight - scrollBottom <= 100;
-  }, [])
-
-  const onEmbedLoaded = () => {
-    if (this.messageContainer && this.stickToBottom) {
-      // Make sure we're still at the bottom
-      this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
-    }
-  };
+      stickToBottom.current = target.scrollHeight - scrollBottom <= 100;
+    },
+    []
+  );
 
   if (loading) {
     return <Loading />;
@@ -160,7 +159,8 @@ export default function Chat(props: Props) {
   }
 
   const { chat } = data;
-  const subject = chat.subject || chat.user?.displayName || chat.user?.name || chat.jid;
+  const subject =
+    chat.subject || chat.user?.displayName || chat.user?.name || chat.jid;
 
   return (
     <React.Fragment>
@@ -169,26 +169,40 @@ export default function Chat(props: Props) {
       </Head>
       <Section>
         <Header title={subject}>{subject}</Header>
-        <Messages
-          ref={messageContainer}
-          onScroll={onMessagesScroll}
-        >
-          {chat.messages.map(message => (
+        <Messages ref={messageContainer} onScroll={onMessagesScroll}>
+          {chat.messages.map((message) => (
             <MessageWrapper
               key={message.id}
               viewerIsAuthor={message.author == null}
             >
               <Message viewerIsAuthor={message.author == null}>
                 <MessageHeader>
-                  <MessageAuthor>{message.author?.displayName || message.author?.name || message.author?.jid || "You"}</MessageAuthor>
+                  <MessageAuthor>
+                    {message.author?.displayName ||
+                      message.author?.name ||
+                      message.author?.jid ||
+                      "You"}
+                  </MessageAuthor>
                   <MessageDate>
                     {new Date(message.createdAt).toLocaleString()}
                   </MessageDate>
                 </MessageHeader>
-                <MessageText style={message.data && message.data.length <= 3 ? {fontSize: "2em"} : undefined}>
+                <MessageText
+                  style={
+                    message.data && message.data.length <= 3
+                      ? { fontSize: "2em" }
+                      : undefined
+                  }
+                >
                   <Linkify>{message.data}</Linkify>
                 </MessageText>
-                {message.mediaType !== MediaType.None && <Media type={message.mediaType} hash={message.mediaHash} filePath={message.media?.filePath} />}
+                {message.mediaType !== MediaType.None && (
+                  <Media
+                    type={message.mediaType}
+                    hash={message.mediaHash}
+                    filePath={message.media?.filePath}
+                  />
+                )}
               </Message>
             </MessageWrapper>
           ))}

@@ -1,41 +1,8 @@
-import * as colors from '../../colors';
-import React from 'react';
-import styled from 'styled-components';
-import SideBar from './SideBar';
-import Link from 'next/link'
-
-const ActionBar = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  margin: 10px;
-  margin-bottom: 0;
-  font-size: 0.8em;
-`;
-
-const Action = styled.button`
-  border: none;
-  background: transparent;
-  border: 1px solid ${colors.darkSecondaryText};
-  color: ${colors.darkSecondaryText};
-  flex: 1;
-  appearance: none;
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 0 5px;
-  border-radius: 2px;
-  text-transform: uppercase;
-  font-size: 0.75em;
-
-  transition: 0.1s ease color, 0.1s ease background;
-
-  :hover {
-    background: ${colors.darkSecondaryText};
-    color: ${colors.darkSecondary};
-  }
-`;
-Action.defaultProps = {
-  type: 'button',
-};
+import React from "react";
+import styled from "styled-components";
+import Link from "next/link";
+import * as colors from "../../colors";
+import SideBar from "./SideBar";
 
 const List = styled.ul`
   display: block;
@@ -94,7 +61,7 @@ export interface ChatData {
   id: number;
   jid: string;
   subject: string;
-  user: User|null;
+  user: User | null;
 }
 
 interface Props {
@@ -102,22 +69,20 @@ interface Props {
   activeChatId?: number;
 }
 
-export default function ChatList(props: Props) {
+export default function ChatList(props: Props): JSX.Element {
   const { chats, activeChatId } = props;
 
   return (
     <SideBar title="Chats">
       <List>
-        {chats.map(chat => (
+        {chats.map((chat) => (
           <li key={chat.id}>
-            <Link
-              href={`/chats/${chat.id}`}
-              passHref
-            >
-              <ItemLink
-                className={chat.id === activeChatId ? 'active' : ''}
-              >
-                {chat.subject || chat.user?.displayName || chat.user?.name || chat.jid}
+            <Link href={`/chats/${chat.id}`} passHref>
+              <ItemLink className={chat.id === activeChatId ? "active" : ""}>
+                {chat.subject ||
+                  chat.user?.displayName ||
+                  chat.user?.name ||
+                  chat.jid}
               </ItemLink>
             </Link>
           </li>

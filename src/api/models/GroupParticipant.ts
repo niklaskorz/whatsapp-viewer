@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity({ name: "group_participants" })
 export class GroupParticipant {
-  @PrimaryColumn("integer", {name: "_id"})
+  @PrimaryColumn("integer", { name: "_id" })
   id: number;
 
-  @Column("text", {name: "gjid"})
+  @Column("text", { name: "gjid" })
   groupJid: string;
 
   @Column("text")

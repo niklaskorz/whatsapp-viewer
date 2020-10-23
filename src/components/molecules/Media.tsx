@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const VideoContainer = styled.div`
   position: relative;
@@ -38,17 +38,17 @@ const Sticker = styled.img`
 `;
 
 export enum MediaType {
-  None = 'None',
-  Image = 'Image',
-  Audio = 'Audio',
-  Video = 'Video',
-  Contact = 'Contact',
-  Location = 'Location',
-  Call = 'Call',
-  Document = 'Document',
-  GroupCall = 'GroupCall',
-  AltVideo = 'AltVideo',
-  Sticker = 'Sticker',
+  None = "None",
+  Image = "Image",
+  Audio = "Audio",
+  Video = "Video",
+  Contact = "Contact",
+  Location = "Location",
+  Call = "Call",
+  Document = "Document",
+  GroupCall = "GroupCall",
+  AltVideo = "AltVideo",
+  Sticker = "Sticker",
 }
 
 export interface Props {
@@ -58,24 +58,27 @@ export interface Props {
   onLoad?(): void;
 }
 
-export default function Media({type,hash,filePath}: Props) {
-  if (!filePath && [MediaType.Image, MediaType.Video, MediaType.Sticker].includes(type)) {
-    return <Image src={`/api/thumbnail/${encodeURIComponent(hash)}`} alt="" />
+export default function Media({ type, hash, filePath }: Props): JSX.Element {
+  if (
+    !filePath &&
+    [MediaType.Image, MediaType.Video, MediaType.Sticker].includes(type)
+  ) {
+    return <Image src={`/api/thumbnail/${encodeURIComponent(hash)}`} alt="" />;
   }
 
   switch (type) {
-  case MediaType.Image:
-    return <Image src={`/api/${filePath}`} />
-  case MediaType.Audio:
-    return <audio controls src={`/api/${filePath}`} />
-  case MediaType.Video:
-    return (
-      <VideoContainer>
-        <Video controls src={`/api/${filePath}`} />
-      </VideoContainer>
-    )
-  case MediaType.Sticker:
-    return <Sticker src={`/api/${filePath}`} />
+    case MediaType.Image:
+      return <Image src={`/api/${filePath}`} />;
+    case MediaType.Audio:
+      return <audio controls src={`/api/${filePath}`} />;
+    case MediaType.Video:
+      return (
+        <VideoContainer>
+          <Video controls src={`/api/${filePath}`} />
+        </VideoContainer>
+      );
+    case MediaType.Sticker:
+      return <Sticker src={`/api/${filePath}`} />;
   }
 
   return <i>{type} (not implemented)</i>;

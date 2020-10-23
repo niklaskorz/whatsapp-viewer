@@ -1,7 +1,7 @@
-import * as colors from '../../colors';
-import React from 'react';
-import styled from 'styled-components';
-import SideBar from './SideBar';
+import React from "react";
+import styled from "styled-components";
+import * as colors from "../../colors";
+import SideBar from "./SideBar";
 
 const SubTitle = styled.h3`
   font-size: 0.9em;
@@ -60,7 +60,7 @@ interface Props {
   chat: ChatData;
 }
 
-const selectOnFocus: React.FocusEventHandler<HTMLInputElement> = e => {
+const selectOnFocus: React.FocusEventHandler<HTMLInputElement> = (e) => {
   // Work around a bug in Microsoft Edge that prevents selecting text
   // inside the focus event handler:
   // https://stackoverflow.com/questions/38487059/selecting-all-content-of-text-input-on-focus-in-microsoft-edge
@@ -68,7 +68,7 @@ const selectOnFocus: React.FocusEventHandler<HTMLInputElement> = e => {
   setTimeout(() => t.select(), 0);
 };
 
-export default function ChatInfo(props: Props) {
+export default function ChatInfo(props: Props): JSX.Element {
   const { chat } = props;
 
   return (
@@ -80,15 +80,19 @@ export default function ChatInfo(props: Props) {
         onFocus={selectOnFocus}
         value={chat.jid}
       />
-      {chat.members.length > 0 && <>
-        <SubTitle>Members ({chat.members.length + 1})</SubTitle>
-        <List>
-          {chat.members.map(user => (
-            <Item key={user.id}>{user.displayName || user.name || user.jid}</Item>
-          ))}
-          <Item>You</Item>
-        </List>
-      </>}
+      {chat.members.length > 0 && (
+        <>
+          <SubTitle>Members ({chat.members.length + 1})</SubTitle>
+          <List>
+            {chat.members.map((user) => (
+              <Item key={user.id}>
+                {user.displayName || user.name || user.jid}
+              </Item>
+            ))}
+            <Item>You</Item>
+          </List>
+        </>
+      )}
     </SideBar>
   );
 }

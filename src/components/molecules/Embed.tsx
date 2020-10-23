@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const IframeContainer = styled.div`
   position: relative;
@@ -29,9 +29,9 @@ const Image = styled.img`
 `;
 
 enum EmbedType {
-  Youtube = 'Youtube',
-  Alugha = 'Alugha',
-  Image = 'Image',
+  Youtube = "Youtube",
+  Alugha = "Alugha",
+  Image = "Image",
 }
 
 export interface Props {
@@ -41,7 +41,7 @@ export interface Props {
 }
 
 export default class Embed extends React.Component<Props> {
-  render() {
+  render(): React.ReactNode {
     const { type, src, onLoad } = this.props;
     switch (type) {
       case EmbedType.Alugha:

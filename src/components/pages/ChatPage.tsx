@@ -1,11 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
-import React from 'react';
-import styled from 'styled-components';
-import Loading from '../molecules/Loading';
-import NothingHere from '../molecules/NothingHere';
-import ChatList, { ChatData } from '../molecules/ChatList';
-import Chat from '../organisms/Chat';
-import { useRouter } from 'next/router'
+import { gql, useQuery } from "@apollo/client";
+import React from "react";
+import styled from "styled-components";
+import { useRouter } from "next/router";
+import Loading from "../molecules/Loading";
+import NothingHere from "../molecules/NothingHere";
+import ChatList, { ChatData } from "../molecules/ChatList";
+import Chat from "../organisms/Chat";
 
 const Container = styled.div`
   display: flex;
@@ -16,16 +16,6 @@ const Container = styled.div`
 
 interface Response {
   chats: ChatData[];
-}
-
-interface Props {
-  history: History;
-  location: Location;
-  match: {
-    params: {
-      roomId?: string;
-    };
-  };
 }
 
 const ChatPageQuery = gql`
@@ -43,9 +33,9 @@ const ChatPageQuery = gql`
   }
 `;
 
-export default function ChatPage(props: Props) {
+export default function ChatPage(): JSX.Element | string | null {
   const { data, loading, error } = useQuery<Response>(ChatPageQuery);
-  const router = useRouter()
+  const router = useRouter();
 
   if (loading) {
     return <Loading />;
@@ -63,10 +53,7 @@ export default function ChatPage(props: Props) {
 
   return (
     <Container>
-      <ChatList
-        chats={data.chats}
-        activeChatId={parsedId}
-      />
+      <ChatList chats={data.chats} activeChatId={parsedId} />
       {parsedId ? <Chat chatId={parsedId} /> : <NothingHere />}
     </Container>
   );

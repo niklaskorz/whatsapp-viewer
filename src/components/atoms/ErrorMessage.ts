@@ -1,5 +1,5 @@
-import * as colors from '../../colors';
-import styled from 'styled-components';
+import styled from "styled-components";
+import * as colors from "../../colors";
 
 export default styled.div`
   border-radius: 2px;

@@ -1,6 +1,6 @@
-import * as colors from '../../colors';
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import * as colors from "../../colors";
 
 // CSS code taken from http://tobiasahlin.com/spinkit/
 // Copyright (c) 2015 Tobias Ahlin
@@ -38,11 +38,11 @@ const Rect = styled.div<RectProps>`
   display: inline-block;
 
   animation: ${stretchDelay} 1.2s infinite ease-in-out;
-  animation-delay: ${props => props.delay}s;
+  animation-delay: ${(props) => props.delay}s;
 `;
 
 export default class Spinner extends React.Component {
-  render() {
+  render(): React.ReactNode {
     return (
       <Container>
         <Rect delay={0} />

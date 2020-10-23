@@ -1,14 +1,14 @@
-import formatError from '../../formatError';
-import React from 'react';
-import CenteredContainer from '../atoms/CenteredContainer';
-import ErrorMessage from '../atoms/ErrorMessage';
+import React from "react";
+import formatError from "../../formatError";
+import CenteredContainer from "../atoms/CenteredContainer";
+import ErrorMessage from "../atoms/ErrorMessage";
 
 interface Props {
   errorMessage: string;
 }
 
 export default class ChatError extends React.Component<Props> {
-  render() {
+  render(): React.ReactNode {
     return (
       <CenteredContainer>
         <ErrorMessage>{formatError(this.props.errorMessage)}</ErrorMessage>

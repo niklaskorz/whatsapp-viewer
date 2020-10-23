@@ -6,5 +6,5 @@ export class MediaHashThumbnail {
   mediaHash: string;
 
   @Column("blob")
-  thumbnail: any;
+  thumbnail: Buffer;
 }

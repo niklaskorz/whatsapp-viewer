@@ -1,5 +1,5 @@
-import * as colors from '../../../colors';
-import styled from 'styled-components';
+import styled from "styled-components";
+import * as colors from "../../../colors";
 
 export const Section = styled.section`
   display: flex;
@@ -78,11 +78,11 @@ export const Message = styled.div<MessageProps>`
   line-height: 1.5;
   text-align: left;
 
-  ${props => props.viewerIsAuthor && 'background: ' + colors.secondary};
+  ${(props) => props.viewerIsAuthor && "background: " + colors.secondary};
 `;
 
 export const MessageWrapper = styled.div<MessageProps>`
-  ${props => props.viewerIsAuthor && 'text-align: right'};
+  ${(props) => props.viewerIsAuthor && "text-align: right"};
 
   :first-child {
     padding-top: 10px;
@@ -129,7 +129,7 @@ export const MessageSendButton = styled.button`
   color: #fff;
   cursor: pointer;
 
-  : disabled {
+  :disabled {
     cursor: not-allowed;
   }
 `;
