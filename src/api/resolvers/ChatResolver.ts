@@ -42,7 +42,7 @@ export class RoomResolver {
       where: { jid: chat.jid },
       order: { timestamp: "DESC" },
       skip,
-      take: 10,
+      take: 100,
       relations: ["media"],
     });
   }
