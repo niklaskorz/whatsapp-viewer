@@ -5,7 +5,7 @@ export default class NothingHere extends React.Component {
   render(): React.ReactNode {
     return (
       <CenteredContainer>
-        <p>Welcome! Join a room or create a new one to get started.</p>
+        <p>Welcome! Select a chat from the sidebar to get started.</p>
       </CenteredContainer>
     );
   }
