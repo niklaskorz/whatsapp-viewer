@@ -11,7 +11,7 @@ export enum MediaType {
   Call = "8",
   Document = "9",
   GroupCall = "10",
-  AltVideo = "13",
+  Gif = "13",
   Deleted = "15",
   Sticker = "20",
 }

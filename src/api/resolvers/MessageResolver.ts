@@ -26,6 +26,20 @@ export class MessageResolver {
     );
   }
 
+  @Query(() => [Message])
+  async messages(
+    @Arg("jid", () => String) jid: string,
+    @Arg("skip", () => Int, { nullable: true }) skip?: number
+  ): Promise<Message[]> {
+    return await this.messageRepository.find({
+      where: { jid },
+      order: { timestamp: "DESC" },
+      skip,
+      take: 20,
+      relations: ["media"],
+    });
+  }
+
   @FieldResolver(() => User, { nullable: true })
   async author(@Root() message: Message): Promise<User | null> {
     if (message.fromMe) {

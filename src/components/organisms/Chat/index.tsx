@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 import Linkify from "linkifyjs/react";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Head from "next/head";
-import { useQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import ChatError from "../../molecules/ChatError";
 import Loading from "../../molecules/Loading";
 import ChatInfo from "../../molecules/ChatInfo";
@@ -108,14 +108,24 @@ const ChatQuery = gql`
   }
 `;
 
+const MessageQuery = gql`
+  ${ChatMessageFragment}
+
+  query MessageQuery($jid: String!, $skip: Int!) {
+    messages(jid: $jid, skip: $skip) {
+      ...ChatMessage
+    }
+  }
+`;
+
 interface QueryVariables {
   chatId: number;
 }
 
 export default function Chat(props: Props): JSX.Element {
   const messageContainer = useRef<HTMLDivElement>(null);
-  const stickToBottom = useRef(true);
 
+  const client = useApolloClient();
   const { data, error, loading } = useQuery<Response, QueryVariables>(
     ChatQuery,
     {
@@ -124,28 +134,56 @@ export default function Chat(props: Props): JSX.Element {
       },
     }
   );
-
+  const [loadFrom, setLoadFrom] = useState<number>();
+  const [messages, setMessages] = useState<Message[]>([]);
   useEffect(() => {
-    stickToBottom.current = true;
+    setLoadFrom(undefined);
     if (messageContainer.current) {
       messageContainer.current.scrollTop = 0;
     }
   }, [props.chatId]);
   useEffect(() => {
-    if (stickToBottom.current && messageContainer.current) {
-      // messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
+    if (data?.chat) {
+      setMessages(data.chat.messages);
     }
   }, [data]);
+  useEffect(() => {
+    if (!loadFrom || !data?.chat) {
+      return;
+    }
+    let abort = false;
+    client
+      .query<{ messages: Message[] }>({
+        query: MessageQuery,
+        variables: { jid: data.chat.jid, skip: loadFrom },
+      })
+      .then((result) => {
+        if (abort) {
+          return;
+        }
+        if (result.data && !abort) {
+          setMessages([...messages, ...result.data.messages]);
+        }
+      });
+    return () => {
+      abort = true;
+    };
+  }, [loadFrom]);
 
   const onMessagesScroll = useCallback<React.UIEventHandler<HTMLDivElement>>(
     (e) => {
       const target = e.currentTarget;
       const height = target.getBoundingClientRect().height;
-      const scrollBottom = target.scrollTop + height;
-
-      stickToBottom.current = target.scrollHeight - scrollBottom <= 100;
+      const scrollBottom = target.scrollTop - height;
+      if (target.scrollHeight + scrollBottom <= 2000) {
+        const loadNext = messages.length;
+        if (loadNext !== loadFrom) {
+          console.log("Time to load");
+          setLoadFrom(loadNext);
+        }
+      }
     },
-    []
+    [messages, loadFrom]
   );
 
   if (loading) {
@@ -170,7 +208,7 @@ export default function Chat(props: Props): JSX.Element {
       <Section>
         <Header title={subject}>{subject}</Header>
         <Messages ref={messageContainer} onScroll={onMessagesScroll}>
-          {chat.messages.map((message) => (
+          {messages.map((message) => (
             <MessageWrapper
               key={message.id}
               viewerIsAuthor={message.author == null}
@@ -187,13 +225,7 @@ export default function Chat(props: Props): JSX.Element {
                     {new Date(message.createdAt).toLocaleString()}
                   </MessageDate>
                 </MessageHeader>
-                <MessageText
-                  style={
-                    message.data && message.data.length <= 3
-                      ? { fontSize: "2em" }
-                      : undefined
-                  }
-                >
+                <MessageText>
                   <Linkify>{message.data}</Linkify>
                 </MessageText>
                 {message.mediaType !== MediaType.None && (

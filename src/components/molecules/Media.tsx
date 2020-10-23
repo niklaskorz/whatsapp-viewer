@@ -47,7 +47,7 @@ export enum MediaType {
   Call = "Call",
   Document = "Document",
   GroupCall = "GroupCall",
-  AltVideo = "AltVideo",
+  Gif = "Gif",
   Sticker = "Sticker",
 }
 
@@ -75,6 +75,12 @@ export default function Media({ type, hash, filePath }: Props): JSX.Element {
       return (
         <VideoContainer>
           <Video controls src={`/api/${filePath}`} />
+        </VideoContainer>
+      );
+    case MediaType.Gif:
+      return (
+        <VideoContainer>
+          <Video muted loop autoPlay src={`/api/${filePath}`} />
         </VideoContainer>
       );
     case MediaType.Sticker:
