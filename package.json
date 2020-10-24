@@ -18,6 +18,7 @@
     "nats": "^1.4.12",
     "next": "9.5.5",
     "normalize.css": "^8.0.1",
+    "open": "^7.3.0",
     "react": "17.0.0",
     "react-dom": "17.0.0",
     "reflect-metadata": "^0.1.13",

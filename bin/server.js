@@ -4,6 +4,7 @@
 const http = require("http");
 const url = require("url");
 const path = require("path");
+const open = require("open");
 const next = require("next");
 const conf = require("../next.config");
 
@@ -21,5 +22,6 @@ app.prepare().then(() => {
     .listen(3000, (err) => {
       if (err) throw err;
       console.log("> Ready on http://localhost:3000");
+      open("http://localhost:3000");
     });
 });
