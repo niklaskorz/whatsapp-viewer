@@ -1,10 +1,13 @@
 {
   "name": "whatsapp-viewer",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "license": "MIT",
+  "bin": "bin/server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepublish": "next build"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
@@ -41,6 +44,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
+    "pkg": "^4.4.9",
     "prettier": "^2.1.2",
     "typescript": "^4.0.3"
   }
