@@ -26,7 +26,7 @@ export const Header = styled.header`
 
 export const Messages = styled.div`
   flex: 1;
-  padding: 0 40px;
+  padding: 10px 40px;
   overflow: auto;
   background: ${colors.primary};
 
@@ -83,14 +83,6 @@ export const Message = styled.div<MessageProps>`
 
 export const MessageWrapper = styled.div<MessageProps>`
   ${(props) => props.viewerIsAuthor && "text-align: right"};
-
-  :first-child {
-    padding-top: 10px;
-  }
-
-  :last-child {
-    padding-bottom: 10px;
-  }
 `;
 
 export const NewMessageContainer = styled.div`
