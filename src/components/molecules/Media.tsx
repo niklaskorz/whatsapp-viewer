@@ -68,7 +68,11 @@ export default function Media({ type, hash, filePath }: Props): JSX.Element {
 
   switch (type) {
     case MediaType.Image:
-      return <Image src={`/api/${filePath}`} />;
+      return (
+        <a target="_blank" rel="noreferrer" href={`/api/${filePath}`}>
+          <Image src={`/api/${filePath}`} />
+        </a>
+      );
     case MediaType.Audio:
       return <audio controls src={`/api/${filePath}`} />;
     case MediaType.Video:
