@@ -237,16 +237,16 @@ export default function Chat(props: Props): JSX.Element {
                 {message.mediaCaption && (
                   <MessageText
                     style={
-                      message.mediaName
-                        ? { fontSize: "0.9em", fontWeight: "bold" }
-                        : undefined
+                      message.media
+                        ? undefined
+                        : { fontSize: "0.9em", fontWeight: "bold" }
                     }
                   >
                     <Linkify>{message.mediaCaption}</Linkify>
                   </MessageText>
                 )}
-                {message.mediaName && (
-                  <MessageText style={{ fontSize: "0.9em" }}>
+                {message.mediaName && !message.media && (
+                  <MessageText style={{ fontSize: "0.8em" }}>
                     <Linkify>{message.mediaName}</Linkify>
                   </MessageText>
                 )}

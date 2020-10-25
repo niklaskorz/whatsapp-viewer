@@ -95,6 +95,12 @@ export default function Media({
       );
     case MediaType.Sticker:
       return <Sticker src={`/api/${filePath}`} />;
+    case MediaType.Document:
+      return (
+        <a target="_blank" rel="noreferrer" href={`/api/${filePath}`}>
+          Document
+        </a>
+      );
   }
 
   return <i>{type} (not implemented)</i>;
