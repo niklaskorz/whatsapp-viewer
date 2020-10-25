@@ -36,6 +36,7 @@ interface Message {
   author: User | null;
 
   mediaCaption: string | null;
+  mediaName: string | null;
   mediaType: MediaType;
   mediaMimeType?: string;
   mediaHash: string;
@@ -71,6 +72,7 @@ const ChatMessageFragment = gql`
     }
 
     mediaCaption
+    mediaName
     mediaType
     mediaMimeType
     mediaHash
@@ -233,8 +235,19 @@ export default function Chat(props: Props): JSX.Element {
                   />
                 )}
                 {message.mediaCaption && (
-                  <MessageText>
+                  <MessageText
+                    style={
+                      message.mediaName
+                        ? { fontSize: "0.9em", fontWeight: "bold" }
+                        : undefined
+                    }
+                  >
                     <Linkify>{message.mediaCaption}</Linkify>
+                  </MessageText>
+                )}
+                {message.mediaName && (
+                  <MessageText style={{ fontSize: "0.9em" }}>
+                    <Linkify>{message.mediaName}</Linkify>
                   </MessageText>
                 )}
                 {message.data && (

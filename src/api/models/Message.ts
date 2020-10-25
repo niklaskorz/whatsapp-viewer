@@ -74,6 +74,10 @@ export class Message {
   @Column("text", { name: "media_caption" })
   mediaCaption: string;
 
+  @Field({ nullable: true })
+  @Column("text", { name: "media_name" })
+  mediaName: string;
+
   @Field(() => MediaType)
   @Column("text", { name: "media_wa_type" })
   mediaType: MediaType;
