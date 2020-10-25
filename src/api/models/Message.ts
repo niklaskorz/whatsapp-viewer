@@ -46,6 +46,10 @@ export class Message {
   @Column("text")
   data: string;
 
+  @Field({ nullable: true })
+  @Column("text", { name: "media_caption" })
+  mediaCaption: string;
+
   @Field()
   @Column("text", { name: "key_remote_jid" })
   jid: string;

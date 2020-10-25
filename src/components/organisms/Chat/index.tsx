@@ -35,6 +35,7 @@ interface Message {
   data: string | null;
   author: User | null;
 
+  mediaCaption: string | null;
   mediaType: MediaType;
   mediaMimeType?: string;
   mediaHash: string;
@@ -69,6 +70,7 @@ const ChatMessageFragment = gql`
       displayName
     }
 
+    mediaCaption
     mediaType
     mediaMimeType
     mediaHash
@@ -223,15 +225,20 @@ export default function Chat(props: Props): JSX.Element {
                     {new Date(message.createdAt).toLocaleString()}
                   </MessageDate>
                 </MessageHeader>
-                <MessageText>
-                  <Linkify>{message.data}</Linkify>
-                </MessageText>
                 {message.mediaType !== MediaType.None && (
                   <Media
                     type={message.mediaType}
                     hash={message.mediaHash}
                     filePath={message.media?.filePath}
                   />
+                )}
+                {message.mediaCaption && (
+                  <MessageText>{message.mediaCaption}</MessageText>
+                )}
+                {message.data && (
+                  <MessageText>
+                    <Linkify>{message.data}</Linkify>
+                  </MessageText>
                 )}
               </Message>
             </MessageWrapper>

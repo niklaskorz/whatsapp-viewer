@@ -60,6 +60,7 @@ export const MessageText = styled.div`
   white-space: pre-wrap;
   word-wrap: break-word;
   max-width: 800px;
+  margin-top: 10px;
 `;
 
 export interface MessageProps {

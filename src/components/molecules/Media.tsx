@@ -1,25 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-const VideoContainer = styled.div`
-  position: relative;
-  height: 0;
-  padding-bottom: 56.25%;
-  width: 500px;
-  max-width: 100%;
+const Image = styled.img`
+  display: block;
+  max-width: 500px;
+  max-height: 500px;
+  width: auto;
+  height: auto;
   margin-top: 20px;
 `;
 
 const Video = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-`;
-
-const Image = styled.img`
   display: block;
   max-width: 500px;
   max-height: 500px;
@@ -76,17 +67,9 @@ export default function Media({ type, hash, filePath }: Props): JSX.Element {
     case MediaType.Audio:
       return <audio controls src={`/api/${filePath}`} />;
     case MediaType.Video:
-      return (
-        <VideoContainer>
-          <Video controls src={`/api/${filePath}`} />
-        </VideoContainer>
-      );
+      return <Video controls src={`/api/${filePath}`} />;
     case MediaType.Gif:
-      return (
-        <VideoContainer>
-          <Video muted loop autoPlay src={`/api/${filePath}`} />
-        </VideoContainer>
-      );
+      return <Video muted loop autoPlay src={`/api/${filePath}`} />;
     case MediaType.Sticker:
       return <Sticker src={`/api/${filePath}`} />;
   }
