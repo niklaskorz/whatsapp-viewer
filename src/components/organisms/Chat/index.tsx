@@ -24,8 +24,7 @@ import {
 } from "./styled";
 
 interface User {
-  id: number;
-  jid: string;
+  id: string;
   name: string | null;
   displayName: string | null;
 }
@@ -66,7 +65,6 @@ const ChatMessageFragment = gql`
     data
     author {
       id
-      jid
       name
       displayName
     }
@@ -91,13 +89,11 @@ const ChatQuery = gql`
       subject
       user {
         id
-        jid
         name
         displayName
       }
       members {
         id
-        jid
         name
         displayName
       }
@@ -211,17 +207,19 @@ export default function Chat(props: Props): JSX.Element {
           {messages.map((message) => (
             <MessageWrapper
               key={message.id}
-              viewerIsAuthor={message.author == null}
+              data-message-id={message.id}
+              data-author-id={message.author?.id}
+              viewerIsAuthor={!message.author}
             >
-              <Message viewerIsAuthor={message.author == null}>
+              <Message viewerIsAuthor={!message.author}>
                 <MessageHeader>
                   <MessageAuthor>
                     {message.author?.displayName ||
                       message.author?.name ||
-                      message.author?.jid ||
+                      message.author?.id ||
                       "You"}
                   </MessageAuthor>
-                  <MessageDate>
+                  <MessageDate title={message.id.toString()}>
                     {new Date(message.createdAt).toLocaleString()}
                   </MessageDate>
                 </MessageHeader>

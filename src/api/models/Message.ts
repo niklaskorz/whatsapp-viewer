@@ -39,6 +39,9 @@ export class Message {
   @PrimaryColumn("integer", { name: "_id" })
   id: number;
 
+  @Column("integer")
+  status: number;
+
   @Field({ nullable: true })
   @Column("text")
   data: string;

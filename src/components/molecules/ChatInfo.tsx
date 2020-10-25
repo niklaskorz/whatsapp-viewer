@@ -44,8 +44,7 @@ const Item = styled.li`
 `;
 
 interface User {
-  id: number;
-  jid: string;
+  id: string;
   name: string | null;
   displayName: string | null;
 }
@@ -82,14 +81,13 @@ export default function ChatInfo(props: Props): JSX.Element {
       />
       {chat.members.length > 0 && (
         <>
-          <SubTitle>Members ({chat.members.length + 1})</SubTitle>
+          <SubTitle>Members ({chat.members.length})</SubTitle>
           <List>
             {chat.members.map((user) => (
-              <Item key={user.id}>
-                {user.displayName || user.name || user.jid}
+              <Item key={user.id} data-user-id={user.id}>
+                {user.displayName || user.name || user.id || "You"}
               </Item>
             ))}
-            <Item>You</Item>
           </List>
         </>
       )}

@@ -1,5 +1,5 @@
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Chat } from "../models/Chat";
 import { Message } from "../models/Message";
@@ -32,7 +32,7 @@ export class MessageResolver {
     @Arg("skip", () => Int, { nullable: true }) skip?: number
   ): Promise<Message[]> {
     return await this.messageRepository.find({
-      where: { jid },
+      where: { jid, status: Not(6) },
       order: { timestamp: "DESC" },
       skip,
       take: 20,
@@ -45,12 +45,9 @@ export class MessageResolver {
     if (message.fromMe) {
       return null;
     }
-    return (
-      (await this.userRepository.findOne({
-        jid: message.jid.endsWith("@g.us")
-          ? message.remoteResource
-          : message.jid,
-      })) || null
-    );
+    const isGroup = message.jid.endsWith("@g.us");
+    const id = isGroup ? message.remoteResource : message.jid;
+    const user = await this.userRepository.findOne({ id });
+    return user || new User(id);
   }
 }

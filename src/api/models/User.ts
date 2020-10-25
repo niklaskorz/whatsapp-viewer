@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @ObjectType({
@@ -6,13 +6,16 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 })
 @Entity({ name: "wa_contacts" })
 export class User {
-  @Field(() => Int)
+  constructor(id: string) {
+    this.id = id;
+  }
+
   @PrimaryColumn("integer", { name: "_id" })
-  id: number;
+  _id: number;
 
   @Field()
-  @Column("text")
-  jid: string;
+  @Column("text", { name: "jid" })
+  id: string;
 
   @Field({ nullable: true })
   @Column("text")
