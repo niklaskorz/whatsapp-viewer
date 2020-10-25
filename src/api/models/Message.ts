@@ -27,9 +27,17 @@ export class MessageMedia {
   @PrimaryColumn("integer", { name: "message_row_id" })
   id: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column("text", { name: "file_path" })
   filePath: string;
+
+  @Field()
+  @Column("integer")
+  width: number;
+
+  @Field()
+  @Column("integer")
+  height: number;
 }
 
 @ObjectType()
@@ -46,10 +54,6 @@ export class Message {
   @Column("text")
   data: string;
 
-  @Field({ nullable: true })
-  @Column("text", { name: "media_caption" })
-  mediaCaption: string;
-
   @Field()
   @Column("text", { name: "key_remote_jid" })
   jid: string;
@@ -62,6 +66,13 @@ export class Message {
 
   @Column("int")
   timestamp: number;
+
+  @Column("blob", { name: "raw_data" })
+  thumbnail: Buffer;
+
+  @Field({ nullable: true })
+  @Column("text", { name: "media_caption" })
+  mediaCaption: string;
 
   @Field(() => MediaType)
   @Column("text", { name: "media_wa_type" })

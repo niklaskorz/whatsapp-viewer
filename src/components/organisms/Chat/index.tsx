@@ -228,12 +228,14 @@ export default function Chat(props: Props): JSX.Element {
                 {message.mediaType !== MediaType.None && (
                   <Media
                     type={message.mediaType}
-                    hash={message.mediaHash}
+                    thumbnailId={message.id}
                     filePath={message.media?.filePath}
                   />
                 )}
                 {message.mediaCaption && (
-                  <MessageText>{message.mediaCaption}</MessageText>
+                  <MessageText>
+                    <Linkify>{message.mediaCaption}</Linkify>
+                  </MessageText>
                 )}
                 {message.data && (
                   <MessageText>

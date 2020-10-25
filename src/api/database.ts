@@ -6,6 +6,7 @@ import { Chat } from "./models/Chat";
 import { GroupParticipant } from "./models/GroupParticipant";
 import { MediaHashThumbnail } from "./models/MediaHashThumbnail";
 import { Message, MessageMedia } from "./models/Message";
+import { MessageThumbnail } from "./models/MessageThumbnail";
 import { User } from "./models/User";
 
 typeorm.useContainer(Container);
@@ -34,6 +35,7 @@ export const dbPromise = createConnections([
       MessageMedia,
       Chat,
       MediaHashThumbnail,
+      MessageThumbnail,
       GroupParticipant,
     ],
   },

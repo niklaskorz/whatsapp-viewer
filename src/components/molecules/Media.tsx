@@ -5,18 +5,22 @@ const Image = styled.img`
   display: block;
   max-width: 500px;
   max-height: 500px;
+  min-width: 200px;
+  min-height: 200px;
   width: auto;
   height: auto;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Video = styled.video`
   display: block;
   max-width: 500px;
   max-height: 500px;
+  min-width: 200px;
+  min-height: 200px;
   width: auto;
   height: auto;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const Sticker = styled.img`
@@ -25,7 +29,7 @@ const Sticker = styled.img`
   max-height: 200px;
   width: auto;
   height: auto;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export enum MediaType {
@@ -44,32 +48,51 @@ export enum MediaType {
 
 export interface Props {
   type: MediaType;
-  hash: string;
+  thumbnailId: number;
   filePath?: string;
-  onLoad?(): void;
 }
 
-export default function Media({ type, hash, filePath }: Props): JSX.Element {
-  if (
-    !filePath &&
-    [MediaType.Image, MediaType.Video, MediaType.Sticker].includes(type)
-  ) {
-    return <Image src={`/api/thumbnail/${encodeURIComponent(hash)}`} alt="" />;
+export default function Media({
+  type,
+  thumbnailId,
+  filePath,
+}: Props): JSX.Element {
+  if (!filePath) {
+    return <i>{type} has no file path</i>;
   }
 
   switch (type) {
     case MediaType.Image:
       return (
         <a target="_blank" rel="noreferrer" href={`/api/${filePath}`}>
-          <Image src={`/api/${filePath}`} />
+          <Image
+            onError={(e) => {
+              e.currentTarget.src = `/api/thumbnail/${thumbnailId}`;
+            }}
+            src={`/api/${filePath}`}
+          />
         </a>
       );
     case MediaType.Audio:
       return <audio controls src={`/api/${filePath}`} />;
     case MediaType.Video:
-      return <Video controls src={`/api/${filePath}`} />;
+      return (
+        <Video
+          controls
+          poster={`/api/thumbnail/${thumbnailId}`}
+          src={`/api/${filePath}`}
+        />
+      );
     case MediaType.Gif:
-      return <Video muted loop autoPlay src={`/api/${filePath}`} />;
+      return (
+        <Video
+          muted
+          loop
+          autoPlay
+          poster={`/api/thumbnail/${thumbnailId}`}
+          src={`/api/${filePath}`}
+        />
+      );
     case MediaType.Sticker:
       return <Sticker src={`/api/${filePath}`} />;
   }
