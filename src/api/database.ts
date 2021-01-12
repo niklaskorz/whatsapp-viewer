@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Container } from "typedi";
 import * as typeorm from "typeorm";
 import { Chat } from "./models/Chat";
